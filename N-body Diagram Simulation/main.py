@@ -1,12 +1,9 @@
-from distutils.errors import DistutilsExecError
 import random, pygame as pg
-from xmlrpc.server import DocXMLRPCRequestHandler
 
 G = 1
 BLACK = (0,0,0)
 WHITE = (255,255,255)
 BODIES = []
-
 
 class mass():
       global G, BODIES
@@ -43,8 +40,10 @@ class mass():
 
       def step(self):
             for body in BODIES:
+                  # if same body as itself
                   if self.x == body.x and self.y == body.y:
                         continue
+
                   xDist = self.x-body.x
                   yDist = self.y-body.y
                   if ((xDist)**2+(yDist)**2) < 100:
