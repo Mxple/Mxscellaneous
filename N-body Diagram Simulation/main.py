@@ -7,15 +7,18 @@ BODIES = []
 
 class mass():
       global G, BODIES
-      def __init__(self,mass,radius,position,dx=0,dy=0,stable=False):
+      def __init__(self,mass,position,dx=0,dy=0,radius=None,stable=False):
             self.m = mass
-            self.r = radius
+            self.r = mass**0.5
             self.x = position[0]
             self.y = position[1]
             self.dx = dx
             self.dy = dy
             self.trail = []
             self.stable=stable
+            self.deactivated = False
+            if radius != None:
+                  self.r = radius
 
       def get_acceleration(self):
             xAccel = 0
@@ -39,23 +42,29 @@ class mass():
             return(((self.x-other.x)**2+(self.y-other.y)**2)**0.5)
 
       def step(self):
-            for body in BODIES:
-                  # if same body as itself
-                  if self.x == body.x and self.y == body.y:
-                        continue
-
-                  xDist = self.x-body.x
-                  yDist = self.y-body.y
-                  if ((xDist)**2+(yDist)**2) < 100:
-                        self.trail.append((self.x,self.y))
-                        if len(self.trail) > 300:
-                              del self.trail[0]
-                        return
-
+            if self.deactivated:
+                  return
             dx = self.get_acceleration()[0]
             dy = self.get_acceleration()[1]
-            tempx = self.x+dx
-            tempy = self.y+dy
+            for body in BODIES:
+                  # if same body as itself
+                  if self == body:
+                        continue
+
+                  if ((self.x-body.x)**2+(self.y-body.y)**2) < (max(self.r,body.r))**2:
+                        # combine
+                        body.m+=self.m
+                        body.r=body.m**0.5
+                        body.dx=((body.dx*body.m)+(self.m*(self.dx+dx)))/(body.m+self.m)
+                        body.dy=((body.dy*body.m)+(self.m+(self.dy+dy)))/(body.m+self.m)
+                        body.x = ((body.x*body.m)+(self.x*self.m))/(body.m+self.m)
+                        body.y = ((body.y*body.m)+(self.y*self.m))/(body.m+self.m)
+                        self.m=0
+                        self.r=0
+                        self.dx=0
+                        self.dy=0
+                        self.deactivated = True
+                        return
             
             self.dx += dx
             self.dy += dy
@@ -67,10 +76,10 @@ class mass():
 def main():
       global BLACK, WHITE, BODIES
 
-      N = 3 # number of bodies
+      N = 5 # number of bodies
       for i in range(N-1):
             rand = random.randrange(40,100)
-            temp = mass(50,10,(random.randrange(300,700),random.randrange(300,700)),random.random()-0.5,random.random()-0.5)
+            temp = mass(50,(random.randrange(300,700),random.randrange(300,700)),random.random()-0.5,random.random()-0.5)
             BODIES.append(temp)
       # balance
       bdx = 0
@@ -79,9 +88,8 @@ def main():
             bdx -= b.dx
             bdy -= b.dy
       print(bdx,bdy)
-      BODIES.append(mass(50,10,(random.randrange(300,700),random.randrange(300,700)),bdx,bdy))
-      #BODIES = [mass(500,50,(500,500),0,-.2),mass(100,10,(700,500),0,1)]
-
+      BODIES.append(mass(50,(random.randrange(300,700),random.randrange(300,700)),bdx,bdy))
+      #BODIES = [mass(500,(500,500),0,-.2),mass(100,10,(700,500),0,1)
       pg.init()
       
       size = (1000,1000)
