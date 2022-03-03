@@ -46,25 +46,6 @@ class mass():
                   return
             dx = self.get_acceleration()[0]
             dy = self.get_acceleration()[1]
-            for body in BODIES:
-                  # if same body as itself
-                  if self == body:
-                        continue
-
-                  if ((self.x-body.x)**2+(self.y-body.y)**2) < (max(self.r,body.r))**2:
-                        # combine
-                        body.m+=self.m
-                        body.r=body.m**0.5
-                        body.dx=((body.dx*body.m)+(self.m*(self.dx+dx)))/(body.m+self.m)
-                        body.dy=((body.dy*body.m)+(self.m+(self.dy+dy)))/(body.m+self.m)
-                        body.x = ((body.x*body.m)+(self.x*self.m))/(body.m+self.m)
-                        body.y = ((body.y*body.m)+(self.y*self.m))/(body.m+self.m)
-                        self.m=0
-                        self.r=0
-                        self.dx=0
-                        self.dy=0
-                        self.deactivated = True
-                        return
             
             self.dx += dx
             self.dy += dy
@@ -73,10 +54,28 @@ class mass():
             if len(self.trail) > 300:
                   del self.trail[0]
 
+      def check_collisions(self):
+            for b in range(len(BODIES)):
+                   # if same body as itself
+                  if self == BODIES[b]:
+                        continue
+
+                  if ((self.x-BODIES[b].x)**2+(self.y-BODIES[b].y)**2) < (self.r+BODIES[b].r+4)**2:
+                        # combine
+                        self.dx=(((BODIES[b].dx)*BODIES[b].m)+(self.m*(self.dx)))/(BODIES[b].m+self.m)
+                        self.dy=(((BODIES[b].dy)*BODIES[b].m)+(self.m*(self.dy)))/(BODIES[b].m+self.m)
+                        self.x = ((BODIES[b].x*BODIES[b].m)+(self.x*self.m))/(BODIES[b].m+self.m)
+                        self.y = ((BODIES[b].y*BODIES[b].m)+(self.y*self.m))/(BODIES[b].m+self.m)
+                        self.m+=BODIES[b].m
+                        self.r=self.m**0.5
+                        del BODIES[b]
+                        return True
+            return False
+
 def main():
       global BLACK, WHITE, BODIES
 
-      N = 5 # number of bodies
+      N = 50 # number of bodies
       for i in range(N-1):
             rand = random.randrange(40,100)
             temp = mass(50,(random.randrange(300,700),random.randrange(300,700)),random.random()-0.5,random.random()-0.5)
@@ -116,6 +115,8 @@ def main():
                   total+=b.m
                   massx+=b.x*b.m
                   massy+=b.y*b.m
+            while b.check_collisions():
+                  pass
             for b in BODIES:
                   if not b.stable:
                         b.x += b.dx
