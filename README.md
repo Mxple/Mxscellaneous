@@ -11,6 +11,7 @@ N-body diagram Simulation:
 Known issues:
 - Adding bodies (and occasionally, restarting) unbalances the system
 - Energy is incorrectly calculated
+
 Dependencies:
 - random, pickle, copy, pygame
 
@@ -18,6 +19,7 @@ SudokuSolver
 - Simple Sudoku solver using recursive backtracking
 Known issues:
 - Will fail to solve certain sudokus due to the nature of DFS
+
 Dependencies:
 - numpy
 
@@ -29,5 +31,6 @@ Wordle
 - Override calculation with any key
 Known issues:
 - Some words will fail due to errors in grey/yellow duplicates
+
 Dependencies:
 copy
