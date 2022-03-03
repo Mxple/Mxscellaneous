@@ -75,7 +75,7 @@ class mass():
 def main():
       global BLACK, WHITE, BODIES
 
-      N = 50 # number of bodies
+      N = 10 # number of bodies
       for i in range(N-1):
             rand = random.randrange(40,100)
             temp = mass(50,(random.randrange(300,700),random.randrange(300,700)),random.random()-0.5,random.random()-0.5)
@@ -83,25 +83,36 @@ def main():
       # balance
       bdx = 0
       bdy = 0
+      massX=0
+      massY=0
       for b in BODIES:
             bdx -= b.dx
             bdy -= b.dy
+            massX+=b.x
+            massY+=b.y
       print(bdx,bdy)
-      BODIES.append(mass(50,(random.randrange(300,700),random.randrange(300,700)),bdx,bdy))
+      BODIES.append(mass(50,(500*N-massX,500*N-massY),bdx,bdy))
       #BODIES = [mass(500,(500,500),0,-.2),mass(100,10,(700,500),0,1)
+
       pg.init()
       
+      # pygame window settings
       size = (1000,1000)
       screen = pg.display.set_mode(size)
-
       pg.display.set_caption("N-Body Simulation")
       clock = pg.time.Clock()
 
+      # show count
+      font = pg.font.Font('freesansbold.ttf', 32)
+      text = font.render(str(len(BODIES)), True, WHITE, BLACK)
+      textRect = text.get_rect()
+      textRect.center = (50,50)
+      
       while True:
             clock.tick(60)
-            pg.event.get()
             screen.fill(BLACK)
-
+            text = font.render(str(len(BODIES)), True, WHITE, BLACK)
+            screen.blit(text, textRect)
             massx = 0
             massy = 0
             total = 0
@@ -117,14 +128,22 @@ def main():
                   massy+=b.y*b.m
             while b.check_collisions():
                   pass
+            for b in range(len(BODIES)-1,-1,-1):
+                  BODIES[b].check_collisions()
             for b in BODIES:
                   if not b.stable:
                         b.x += b.dx
                         b.y += b.dy
             pg.draw.circle(screen,(255,100,100),(int(massx/total),int(massy/total)),2,2)
+            #pg.draw.circle(screen,(255,50,50),(500,500),3,3)
 
-            pg.display.update()
+            
+            for event in pg.event.get():
+                  if event.type == pg.QUIT:
+                        pg.quit()
+                        quit()
       
+            pg.display.update()
 
 if __name__== "__main__":
       main()
