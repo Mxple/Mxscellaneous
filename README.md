@@ -11,7 +11,7 @@ Small projects that I've worked on including LeetCode, Daily Coding Problems, bo
 - Time complexity of O(n)^2, Solar System model runs smoothly at 30 days/second (100 ticks per day) on Ryzen 5 3600x
 
 Dependencies:
-- random, pickle, copy, pygame
+- random, pickle, pygame
 
 ## SudokuSolver
 - Simple Sudoku solver using recursive backtracking
