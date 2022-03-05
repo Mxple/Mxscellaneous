@@ -5,13 +5,10 @@ Small projects that I've worked on including LeetCode, Daily Coding Problems, bo
 - Daily Coding Problems, mostly algoritmic and data structure questions and solutions
 
 ## N-body diagram Simulation:
-- Simulates an N-body system using Newtonian laws of physics. The included save file is an example of a three body system (encoded in binary)
-- Adjustable parameters are universal gravitational constant, G, number of bodies, N
-- Press R to restart, A to add a few new bodies, S to save current system, UP/DOWN to zoom, LEFT/RIGHT to change perspective, LEFT BRACKET and RIGHT_BRACKET to change the tick speed
-
-Known issues:
-- Adding bodies (and occasionally, restarting) unbalances the system
-- Energy is incorrectly calculated
+- Simulates an N-body system using Newtonian laws of gravitation
+- Press R to restart, A to add a few new bodies, S to save current system, UP/DOWN to zoom, LEFT/RIGHT to change perspective, =/- to change the speed
+- Initialized to a simple model of the Solar System
+- Time complexity of O(n)^2, Solar System model runs smoothly at 30 days/second (100 ticks per day) on Ryzen 5 3600x
 
 Dependencies:
 - random, pickle, copy, pygame
