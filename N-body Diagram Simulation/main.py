@@ -118,10 +118,6 @@ def main():
       global BLACK, WHITE, BODIES, ZOOM, TIME, PERSPECTIVE, SPEED, BLOWUP, SOLARSYSTEM, SHOWCONTROLS
       speedtmp = None
 
-      # open save file
-      # with open("N-body Diagram Simulation/save","rb") as file:
-      #       BODIES = pickle.load(file)
-
       '''
       SOLAR SYSTEM MODEL
       '''
@@ -177,6 +173,10 @@ def main():
             mass(0.05685,(3605664,550.7),-3.9,7.4,1,(175,155,155) ),          # titania (uranus)
             mass(0.359,(5638997.8,448.77),-4.7873,5.9,1,(175,155,155) ),      # triton (neptune)
       ])
+
+      # open save file
+      with open("N-body Diagram Simulation/save","rb") as file:
+            BODIES = pickle.load(file)
 
       # pygame window settings
       pg.init()
@@ -269,10 +269,10 @@ def main():
 
             # tips
             tips = [
-                  "UP and DOWN to zoom in and out",
-                  "= and - to speed up and down",
-                  "Hold SHIFT/CTRL to go change faster",
-                  "LEFT and RIGHT to change perspective",
+                  "UP / DOWN to zoom in and out",
+                  "= / - to speed up and down",
+                  "Hold SHIFT / CTRL to go change faster",
+                  "LEFT / RIGHT to change perspective",
                   "B to enlarge",
                   "R to restart",
                   "A to add new bodies",
