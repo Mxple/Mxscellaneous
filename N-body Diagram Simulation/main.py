@@ -1,6 +1,4 @@
-import random, pickle, copy, pygame as pg
-from numpy import show_config
-from pyparsing import White
+import random, pickle, pygame as pg
 
 G = 6
 BLACK = (0,0,0)
