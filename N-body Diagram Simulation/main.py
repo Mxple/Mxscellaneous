@@ -134,13 +134,25 @@ def main():
       # with open("N-body Diagram Simulation/save","rb") as file:
       #       BODIES = pickle.load(file)
       '''
-      ITS OVER HERE
-      sun,earth,moon, jupiter, mercury,venus,mars
+      SOLAR SYSTEM MODEL
       '''
+      solarbodies = {
+            0:"Sun",
+            1:"Mercury",
+            2:"Venus",
+            3:"Earth",
+            4:"Mars",
+            5:"Jupiter",
+            7:"Saturn",
+            8:"Uranus",
+            9:"Neptune",
+            10:"Pluto",
+            11:"Moon"
+      }
       BODIES = []
       # planets -uranus -pluto
       BODIES.extend([
-            mass(33000000,(0,0),0,0,22,(255,200,100) ),
+      mass(33000000,(0,0),0,0,22,(255,200,100) ),
       mass(5.5,(72975,0),0,52.1,2,(180,150,140) ),
       mass(81.5,(136274,0),0,38.1,4,(210,180,80) ),
       mass(100,(188435,0),0,32.4,4,(10,220,255) ),
